@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Live Streamer
+    <img width="500" height="500" id="screen" />
+    <button onclick="savedata()">Save data</button>
+    <button onclick="stopsavedata()">Stop Save data</button>
+
+    <script>
+      //   var baseHost = document.location.origin;
+      const WS_URL = "ws://" + "localhost" + ":5001";
+      const ws = new WebSocket(WS_URL);
+
+      ws.onmessage = (message) => {
+        console.log("message received");
+        if (message.data instanceof Blob) {
+          var urlObject = URL.createObjectURL(message.data);
+          const screen = document.getElementById("screen");
+          screen.src = urlObject;
+        }
+      };
+      ws.onopen = () => {
+        ws.send(JSON.stringify({ viewer: "yes" }));
+      };
+      function savedata() {
+        ws.send(JSON.stringify({ viewer: "yes", saveData: true, start: true }));
+      }
+      function stopsavedata() {
+        ws.send(
+          JSON.stringify({ viewer: "yes", saveData: true, start: false })
+        );
+      }
+    </script>
+  </body>
+</html>
