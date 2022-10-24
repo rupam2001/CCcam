@@ -10,7 +10,7 @@ class MakeVideo:
         img.save(self.p.stdin, "JPEG")
         
     def close(self):
-        self.p.stdin.close()
+        self.p.stdin.close() 
         self.p.wait()
     def __del__(self):
         self.close()
