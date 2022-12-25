@@ -134,7 +134,6 @@
       function takeASnap() {
         if (mode == "remote") {
           const ENDPOINT = "http://192.168.29.238" + ":5000/takeasnap";
-          console.log(ENDPOINT);
           fetch(ENDPOINT, { method: "GET" });
         }
       }
