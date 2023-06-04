@@ -37,7 +37,7 @@ def bas64ToNumpyArray(data):
         return None
     return np.array(image)
 
-import cv2
+# import cv2
 
 class MotionDetector:
     def __init__(self, numFrameToUse=2, threshold=6.0, debug=False) -> None:

@@ -10,9 +10,9 @@ from image_processing import binaryToPILImage, binaryToNumpyArray
 from image_processing import MotionDetector
 from storage_utils import saveImage
 
-motionDetector = MotionDetector(debug=False)
+# motionDetector = MotionDetector(debug=False)
 
-from storage_utils import VideoRecorder
+# from storage_utils import VideoRecorder
 
 videoRedorder = None
 
@@ -49,7 +49,7 @@ def startRecording():
     print("start recording request")
     global start_recording, videoRedorder
     start_recording = True
-    videoRedorder = VideoRecorder()
+    # videoRedorder = VideoRecorder()
     return ""
 
 @app.route("/stoprecording")
@@ -118,17 +118,17 @@ def cam(sock):
         print(type(data), cam_data_count)
         cam_data_count += 1
 
-        if isMotionDetectorOn:
-            motionDetector.nextFrame(binaryToPILImage(data))
-            isMotionDetected, motionSegmantedFrame, originalFrame = motionDetector.detectMotion()
+        # if isMotionDetectorOn:
+        #     motionDetector.nextFrame(binaryToPILImage(data))
+        #     isMotionDetected, motionSegmantedFrame, originalFrame = motionDetector.detectMotion()
 
-            if isMotionDetected:
-                messageToViewer = {"motiondetected": True}
-                print("motion detected")
-                if viewerSock is not None and viewerSockAuth is True:
-                    viewerSock.send(json.dumps(messageToViewer))
-        else:
-            motionDetector.clearFrames()
+        #     if isMotionDetected:
+        #         messageToViewer = {"motiondetected": True}
+        #         print("motion detected")
+        #         if viewerSock is not None and viewerSockAuth is True:
+        #             viewerSock.send(json.dumps(messageToViewer))
+        # else:
+        #     motionDetector.clearFrames()
         
         if viewerSock is not None and viewerSockAuth is True:
             try:
@@ -151,12 +151,36 @@ def cam(sock):
 
 
 
+angle = 0
+step = 5 # 5 degrees
+
+@app.route("/moveleft")
+def moveLeft():
+    print("left")
+    global angle
+    angle -= step
+    if angle <= -180:
+        return ""
+    angle = (angle + (35 * 1)) % 180
+    viewerSock.send(angle)
+    
+    return ""
 
     
 
 
+@app.route("/moveright")
+def moveRight():
+    print("right")
+    global angle
+    angle += step
+    if angle >= 180:
+        return ""
+    viewerSock.send(angle)
+
+    return ""
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0',threaded=True)
+    app.run(debug=True, host='0.0.0.0',threaded=True, port=8080)

@@ -29,10 +29,13 @@
         <img width="500" height="500" id="screen" />
         <div class="w-full flex justify-center pt-4">
           <div class="border-2 border-gray-500 px-4 py-2 rounded-2xl">
-            <i
+            <!-- <i
               class="fa-solid fa-camera text-3xl cursor-pointer"
               onclick="takeASnap()"
-            ></i>
+            ></i> -->
+
+            <button onclick="left()">Left</button>
+            <button onclick="right()">Right</button>
           </div>
         </div>
 
@@ -58,7 +61,7 @@
       // });
 
       let isAuthenticated = false;
-      const WS_URL = "ws://" + window.location.hostname + ":5000/viewer";
+      const WS_URL = "ws://" + window.location.hostname + ":8080/viewer";
       let ws = new WebSocket(WS_URL);
       const live = document.getElementById("live");
       let lastLiveActive = null;
@@ -133,9 +136,16 @@
 
       function takeASnap() {
         if (mode == "remote") {
-          const ENDPOINT = "http://192.168.29.238" + ":5000/takeasnap";
+          const ENDPOINT = "http://192.168.100.191" + ":8080/takeasnap";
           fetch(ENDPOINT, { method: "GET" });
         }
+      }
+      const ENDPOINT = "http://192.168.100.191:8080";
+      function left() {
+        fetch(ENDPOINT + "/moveleft", { method: "GET" });
+      }
+      function right() {
+        fetch(ENDPOINT + "/moveright", { method: "GET" });
       }
     </script>
   </body>

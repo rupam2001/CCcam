@@ -50,7 +50,6 @@ nltk=3.7=pypi_0
 numexpr=2.8.3=py310hb57aa6b_0
 numpy=1.23.4=pypi_0
 numpy-base=1.23.3=py310h04254f7_0
-opencv-python=4.6.0.66=pypi_0
 openssl=1.1.1q=h2bbff1b_0
 packaging=21.3=pyhd3eb1b0_0
 pandas=1.4.4=py310hd77b12b_0
